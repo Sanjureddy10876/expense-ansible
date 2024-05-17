@@ -18,7 +18,11 @@
   - name: create expense user
     ansible.builtin.user: 
       name: expense
-
+  
+  - name: create app directory
+    ansible.builtin.file: 
+      path: /app
+      state: directory
   # - name: imstall nodejs
   #   ansible.builtin.dnf: dnf install nodejs -y
    
