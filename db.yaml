@@ -21,14 +21,14 @@
     - name: install python dependencies
       ansible.builtin.pip:
         name: 
-        - PyMysql
+        - PyMySQL
         - cryptography
         executable: pip3.9
     # Check if the password is already set up or not
     - name: check DB connection
       community.mysql.mysql_info:
         login_user: root
-        login_password: "ExpenseApp@1"
+        login_password: "{{ mysql_root_passowrd }}"
         login_host: "{{ login_host }}"
         filter: version
       ignore_errors: yes
@@ -39,5 +39,5 @@
         msg: "output: {{ mysql_connection_output }}"
 
     - name: setup root password
-      ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ mysql root passowrd }}"
+      ansible.builtin.command: "mysql_secure_installation --set-root-pass {{ mysql_root_passowrd }}"
       when: mysql_connection_output.feiled is true
