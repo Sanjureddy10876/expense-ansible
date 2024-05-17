@@ -15,6 +15,9 @@
     ansible.builtin.dnf: #only works for radhat family
       name: "{{ item }}"
       state: installed
+    loop:
+    - nodejs
+    - mysql
 
   - name: create expense user
     ansible.builtin.user: 
@@ -61,6 +64,7 @@
       target: /app/schema/backend.sql
       state: import
       name: all
+
   - name: demon reload
     ansible.builtin.systemd_service:
       login_user: root
