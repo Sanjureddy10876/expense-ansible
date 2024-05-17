@@ -3,6 +3,7 @@
   become: yes
   vars:
     login_host: db.santhosh78s.online
+    login_password: ExpenseApp@1
   tasks:
   - name: disable default nodejs
     ansible.builtin.command: dnf module disable nodejs -y
@@ -12,7 +13,7 @@
 
   - name: install nodejs
     ansible.builtin.dnf: #only works for radhat family
-      name: nodejs
+      name: "{{ item }}"
       state: installed
 
   - name: create expense user
@@ -44,3 +45,26 @@
     ansible.builtin.copy:
       src: backend.service
       dest: /etc/systemd/system/backend.service
+
+  - name: install python mysql dependencies
+    ansible.builtin.pip:
+      name: 
+      - PyMySQL #to connect MySQL DB from Ansible
+      - cryptography
+      executable: pip3.9 # pip3.11 if python version is 3.11
+
+  - name: import data into MySQL
+    community.mysql.mysql_db:
+      login_user: root
+      login_password: "{{ login_password }}"
+      login_host: "{{ login_host }}"
+      target: /app/schema/backend.sql
+      state: import
+      name: all
+  - name: demon reload
+    ansible.builtin.systemd_service:
+      login_user: root
+      login_password: "{{ login_password }}"
+      login_host: "{{ login_host }}"
+      target: /app/schema/backend.sql
+      state: import
