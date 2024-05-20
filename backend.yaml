@@ -65,6 +65,6 @@
       state: import
       name: all
 
-  - name: demon reload
-    ansible.builtin.systemd_service:
-     demon_reload: true
+  - name: Reload systemd daemon
+    ansible.builtin.systemd:
+      daemon_reload: yes
