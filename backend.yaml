@@ -66,5 +66,5 @@
       name: all
 
   - name: Reload systemd daemon
-    ansible.builtin.systemd:
+    ansible.builtin.systemd_service:
       daemon_reload: yes
